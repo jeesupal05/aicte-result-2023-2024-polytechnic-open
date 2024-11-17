@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Polytechnic Student Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #003366;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+        main {
+            padding: 20px;
+            max-width: 1000px;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .form-container {
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 16px;
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], input[type="date"], button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #003366;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0055aa;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            text-align: left;
+            padding: 10px;
+        }
+        th {
+            background-color: #003366;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .summary {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>All India Council for Technical Education</h1>
+        <h2>FOR OPEN POLYTECHNIC STUDENT RESULT</h2>
+        <h3>ACADEMIC SESSION 2023-2024</h3>
+    </header>
+    <main>
+        <div class="form-container">
+            <label for="regNo">Registration Number</label>
+            <input type="text" id="regNo" placeholder="Enter Registration Number">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob">
+            <button onclick="checkResult()">Check Result</button>
+        </div>
+        <div id="resultContainer" style="display: none;">
+            <h3>Student Result</h3>
+            <div id="studentDetails"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Semester</th>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Marks</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody id="resultTable"></tbody>
+            </table>
+        </div>
+    </main>
+    <script>
+        const data = {
+            "AICTE23245675": {
+                dob: "2005-02-05",
+                name: "Jeesu Pal",
+                college: "AXISBLUE Institute of Civil Engineering",
+                type: "Open Polytechnic",
+                cgpa: 7.35,
+                percentage: 69.8,
+                result: [
+                    { semester: 1, subjects: [
+                        { code: "MATH101", name: "Mathematics", marks: 62, grade: "CC" },
+                        { code: "PHYS102", name: "Physics", marks: 65, grade: "CC" },
+                        { code: "MECH103", name: "Mechanics", marks: 52, grade: "DD" },
+                        { code: "BMC104", name: "Basic Mechanical Engineering", marks: 71, grade: "BC" }
+                    ] },
+                    { semester: 2, subjects: [
+                        { code: "SURV201", name: "Surveying", marks: 52, grade: "DD" },
+                        { code: "CMT202", name: "Construction Material Technology", marks: 89, grade: "BB" },
+                        { code: "BPD203", name: "Building Planning and Drawing", marks: 67, grade: "CC" },
+                        { code: "GEOE203204", name: "Geology and Environmental Engineering", marks: 81, grade: "BB" }
+                    ] },
+                    { semester: 3, subjects: [
+                        { code: "SOM301", name: "Strength of Materials", marks: 70, grade: "BC" },
+                        { code: "SURV302", name: "Surveying-II", marks: 74, grade: "BC" },
+                        { code: "TRANS303", name: "Transportation Engineering", marks: 62, grade: "CC" },
+                        { code: "CT304", name: "Concrete Technology", marks: 88, grade: "BB" },
+                        { code: "HYD305", name: "Hydraulics", marks: 75, grade: "BC" }
+                    ] }
+                ]
+            },
+            "AICTE23245682": {
+                dob: "2005-09-09",
+                name: "Bitan Sarkar",
+                college: "AXISBLUE Institute of Civil Engineering",
+                type: "Open Polytechnic",
+                cgpa: 7.20,
+                percentage: 68.3,
+                result: [
+                    { semester: 1, subjects: [
+                        { code: "MATH101", name: "Mathematics", marks: 52, grade: "DD" },
+                        { code: "PHYS102", name: "Physics", marks: 74, grade: "CC" },
+                        { code: "MECH103", name: "Mechanics", marks: 52, grade: "DD" },
+                        { code: "BMC104", name: "Basic Mechanical Engineering", marks: 70, grade: "BC" }
+                    ] },
+                    { semester: 2, subjects: [
+                        { code: "SURV201", name: "Surveying", marks: 45, grade: "DD" },
+                        { code: "CMT202", name: "Construction Material Technology", marks: 81, grade: "BB" },
+                        { code: "BPD203", name: "Building Planning and Drawing", marks: 51, grade: "CC" },
+                        { code: "GEOE203204", name: "Geology and Environmental Engineering", marks: 94, grade: "AA" }
+                    ] },
+                    { semester: 3, subjects: [
+                        { code: "SOM301", name: "Strength of Materials", marks: 70, grade: "BC" },
+                        { code: "SURV302", name: "Surveying-II", marks: 72, grade: "BC" },
+                        { code: "TRANS303", name: "Transportation Engineering", marks: 62, grade: "CC" },
+                        { code: "CT304", name: "Concrete Technology", marks: 88, grade: "BB" },
+                        { code: "HYD305", name: "Hydraulics", marks: 78, grade: "BC" }
+                    ] }
+                ]
+            }
+        };
+
+        function checkResult() {
+            const regNo = document.getElementById("regNo").value;
+            const dob = document.getElementById("dob").value;
+
+            if (data[regNo] && data[regNo].dob === dob) {
+                const student = data[regNo];
+                const resultTable = document.getElementById("resultTable");
+                resultTable.innerHTML = ""; // Clear previous results
+
+                const studentDetails = `
+                    <p><strong>Student Name:</strong> ${student.name}</p>
+                    <p><strong>College Name:</strong> ${student.college}</p>
+                    <p><strong>College Type:</strong> ${student.type}</p>
+                    <p><strong>Result:</strong> PASS</p>
+                    <p><strong>CGPA:</strong> ${student.cgpa}</p>
+                    <p><strong>Percentage:</strong> ${student.percentage}%</p>
+                `;
+                document.getElementById("studentDetails").innerHTML = studentDetails;
+
+                student.result.forEach(semester => {
+                    semester.subjects.forEach((subject, index) => {
+                        const row = document.createElement("tr");
+                        if (index === 0) {
+                            const semesterCell = document.createElement("td");
+                            semesterCell.rowSpan = semester.subjects.length;
+                            semesterCell.textContent = semester.semester;
+                            row.appendChild(semesterCell);
+                        }
+                        row.innerHTML += `
+                            <td>${subject.code}</td>
+                            <td>${subject.name}</td>
+                            <td>${subject.marks}</td>
+                            <td>${subject.grade}</td>
+                        `;
+                        resultTable.appendChild(row);
+                    });
+                });
+
+                document.getElementById("resultContainer").style.display = "block";
+            } else {
+                alert("Invalid Registration Number or Date of Birth.");
+            }
+        }
+    </script>
+</body>
+</html>
